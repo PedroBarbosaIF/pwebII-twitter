@@ -1,4 +1,6 @@
 import post from "../models/Post.js";
+import comment from "../models/Comment.js";
+import mongoose from "mongoose";
 
 class PostController {
     //lista todos os posts
@@ -19,7 +21,8 @@ class PostController {
         try {
             const id = req.params.id;
             const especificPost = await post.findById(id);
-            res.status(200).json(especificPost);
+            const comments = await comment.find({ postID: id });
+            res.status(200).json({ post: especificPost, comments: comments });
         } catch (e) {
             res.status(500).json({
                 message: `listing post by id failed`,

@@ -1,7 +1,8 @@
 import express from 'express';
 import postRouter from './postRoutes.js';
+import commentRouter from './commentRoutes.js';
 
-const arrayRouters = [postRouter]
+const arrayRouters = [postRouter, commentRouter]
 
 function routes(app) {
     app.get('/', (req,res) => {

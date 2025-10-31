@@ -1,0 +1,17 @@
+/*     HOME POST style.css    */
+@import "tailwindcss";
+
+.post{
+
+}
+.post:hover{
+    cursor: pointer;
+}
+
+.title{
+
+}
+
+.post .body{
+    color: aqua;
+}

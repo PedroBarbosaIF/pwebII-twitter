@@ -1,7 +1,18 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import Home from "./Pages/Home/Home";
+import PostPage from "./Pages/PostPage/PostPage";
+
+export default function App() {
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/post/:id" element={<PostPage />} />
+            </Routes>
+        </BrowserRouter>
+    );
+}
+/*  SÓ PARA SALVAR
 
 function App() {
   const [count, setCount] = useState(0)
@@ -31,5 +42,4 @@ function App() {
     </>
   )
 }
-
-export default App
+*/

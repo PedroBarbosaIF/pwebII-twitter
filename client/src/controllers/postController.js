@@ -64,13 +64,15 @@ class PostController {
         }
     }
 
-    //deleta post pelo id
+    //deleta post pelo id e seus comentários
     static async deletePostByID(req, res) {
         try {
             const id = req.params.id;
             const postToDelete = await post.findByIdAndDelete(id);
+            // Deleta todos os comentários relacionados a este post
+            await comment.deleteMany({ postID: id });
             res.status(200).json({
-                message: "post was deleted",
+                message: "post and related comments were deleted",
                 post: postToDelete,
             });
         } catch (e) {

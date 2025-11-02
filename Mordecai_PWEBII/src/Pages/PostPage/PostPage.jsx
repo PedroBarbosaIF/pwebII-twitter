@@ -3,14 +3,14 @@ import { useParams } from "react-router-dom";
 import api from "../../services/api";
 import PostPageCard from "../../Components/PostPageCardPost/PostPageCard";
 import PostPageCardComment from "../../Components/PostPageComment/PostPageCardComment";
-import './style.css'
+import "./style.css";
+import CommentForm from "../../Components/CommentForm/CommentForm";
 
 export default function PostPage() {
     let { id } = useParams();
 
     const [postObject, setPostObject] = useState({});
     const [comments, setComments] = useState([]);
-    const [newComment, setNewComment] = useState("");
 
     /*
     const addComment = () =>{
@@ -49,14 +49,57 @@ export default function PostPage() {
                 </div>
 
                 <div className="rightSide">
+                    <CommentForm
+                        onSubmit={async (text) => {
+                            try {
+                                const response = await api.post("/comments", {
+                                    text: text,
+                                    postID: id,
+                                });
+                                
+                                // O backend retorna { message, comment }
+                                if ( response.data.comment) {
+                                    setComments([
+                                        ...comments,
+                                        response.data.comment,
+                                    ]);
+                                    console.log(response.data)
+                                } else {
+                                    // fallback: recarrega todos os comentários
+                                    const updated = await api.get(
+                                        `comments/${id}`
+                                    );
+                                    setComments(updated.data);
+                                }
+                            } catch (err) {
+                                alert("Erro ao enviar comentário");
+                            }
+                        }}
+                    />
                     <div className="listOfComments">
                         {comments.map((comment, key) => {
                             return (
-                                <div className="">
+                                <div className="" key={comment._id}>
                                     <PostPageCardComment
-                                        key={comment._id}
                                         id={comment._id}
                                         text={comment.text}
+                                        onRemove={async (commentId) => {
+                                            if (
+                                                window.confirm(
+                                                    "Tem certeza que deseja remover este comentário?"
+                                                )
+                                            ) {
+                                                await api.delete(
+                                                    `/comments/${commentId}`
+                                                );
+                                                setComments(
+                                                    comments.filter(
+                                                        (c) =>
+                                                            c._id !== commentId
+                                                    )
+                                                );
+                                            }
+                                        }}
                                     />
                                 </div>
                             );

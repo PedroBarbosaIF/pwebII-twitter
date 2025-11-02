@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../services/api";
-import PostPageCard from "../../Components/PostPageCard/PostPageCard";
+import PostPageCard from "../../Components/PostPageCardPost/PostPageCard";
+import PostPageCardComment from "../../Components/PostPageComment/PostPageCardComment";
+import './style.css'
 
 export default function PostPage() {
     let { id } = useParams();
@@ -46,29 +48,21 @@ export default function PostPage() {
                     />
                 </div>
 
-                {/*<div className="rightSide">
-                    <div className="addCommentContainer">
-                        <input
-                            type="text"
-                            placeholder="Digite o comentário"
-                            value={newComment}
-                            onChange={(event) => {
-                                setNewComment(event.target.value);
-                            }}
-                        />
-                    </div>
-                    <button onClick={addComment}>Add Comentário</button>
-
+                <div className="rightSide">
                     <div className="listOfComments">
                         {comments.map((comment, key) => {
                             return (
-                                <div className="comment">
-                                    {comment.commentBody}
+                                <div className="">
+                                    <PostPageCardComment
+                                        key={comment._id}
+                                        id={comment._id}
+                                        text={comment.text}
+                                    />
                                 </div>
                             );
                         })}
                     </div>
-                </div>*/}
+                </div>
             </div>
         </>
     );

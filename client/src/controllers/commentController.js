@@ -1,6 +1,4 @@
-import mongoose from "mongoose";
 import comment from "../models/Comment.js";
-import post from "../models/Post.js";
 
 class CommentController {
     //lista todos os comentários

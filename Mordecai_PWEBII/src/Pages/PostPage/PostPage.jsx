@@ -5,6 +5,7 @@ import PostPageCard from "../../Components/PostPageCardPost/PostPageCard";
 import PostPageCardComment from "../../Components/PostPageComment/PostPageCardComment";
 import "./style.css";
 import CommentForm from "../../Components/CommentForm/CommentForm";
+import Navbar from "../../Components/Navbar/Navbar";
 
 export default function PostPage() {
     let { id } = useParams();
@@ -40,11 +41,13 @@ export default function PostPage() {
 
     return (
         <>
+            <Navbar />
             <div className="postPage">
                 <div className="leftSide">
                     <PostPageCard
                         title={postObject.title}
                         text={postObject.text}
+                        username={postObject.user?.username}
                     />
                 </div>
 
@@ -56,14 +59,14 @@ export default function PostPage() {
                                     text: text,
                                     postID: id,
                                 });
-                                
+
                                 // O backend retorna { message, comment }
-                                if ( response.data.comment) {
+                                if (response.data.comment) {
                                     setComments([
                                         ...comments,
                                         response.data.comment,
                                     ]);
-                                    console.log(response.data)
+                                    console.log(response.data);
                                 } else {
                                     // fallback: recarrega todos os comentários
                                     const updated = await api.get(

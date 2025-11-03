@@ -1,7 +1,10 @@
 import { Formik, Form, Field } from "formik";
+import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 
 export default function PostForm({ onPostCreated }) {
+
+    const navigate = useNavigate()
     return (
         <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 mb-6 border border-gray-100">
             <Formik
@@ -13,6 +16,7 @@ export default function PostForm({ onPostCreated }) {
                             onPostCreated();
                         }
                         resetForm();
+                        navigate('/');
                     } catch (err) {
                         alert("Erro ao criar post");
                     } finally {

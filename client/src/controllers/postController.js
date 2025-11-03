@@ -5,7 +5,7 @@ class PostController {
     //lista todos os posts
     static async getPosts(req, res) {
         try {
-            const posts = await post.find();
+            const posts = await post.find().populate("user", "username");
             res.status(200).json(posts);
         } catch (e) {
             res.status(500).json({
@@ -19,7 +19,10 @@ class PostController {
     static async getPostByID(req, res) {
         try {
             const id = req.params.id;
-            const especificPost = await post.findById(id);
+            // popular user para incluir username ao buscar por id
+            const especificPost = await post
+                .findById(id)
+                .populate("user", "username");
             res.status(200).json(especificPost);
         } catch (e) {
             res.status(500).json({
@@ -32,11 +35,22 @@ class PostController {
     //cria post
     static async createPost(req, res) {
         try {
-            const postToCreate = await post.create(req.body);
-            res.status(200).json({
-                message: "post was created",
-                post: postToCreate,
-            });
+            if (req.body.user == null) {
+                const postToCreate = await post.create({
+                    ...req.body,
+                    user: "6907a1c1c755c695899a633d",
+                });
+                res.status(200).json({
+                    message: "post was created",
+                    post: postToCreate,
+                });
+            } else {
+                const postToCreate = await post.create(req.body);
+                res.status(200).json({
+                    message: "post was created",
+                    post: postToCreate,
+                });
+            }
         } catch (e) {
             res.status(500).json({
                 message: `creating post failed`,

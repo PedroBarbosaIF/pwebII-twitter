@@ -9,6 +9,7 @@ export default function PostPageCard(props) {
             >
                 <div className="text-xl font-bold mb-2">{props.title}</div>
                 <div className="text-gray-600">{props.text}</div>
+                <div className="text-sm text-gray-500 mt-2">Por {props.username}</div>
             </div>
         </>
     );
